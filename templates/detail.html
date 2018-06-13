@@ -1,0 +1,170 @@
+{% include ('nav.html') %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-header">
+                <i class="far fa-sticky-note"></i> Monstre
+            </div>
+            <img class="card-img-bottom image" src="https://s3-us-west-2.amazonaws.com/rune-mmeg-assets/wp-content/uploads/2018/05/24105532/Fire-Angel.png" alt="Card image cap">
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="far fa-bookmark"></i> Information
+            </div>
+            <div class="card-body">
+                <p>
+                    type: {{ monster[2] }} <br>
+                    element: {% if  monster[15]  =='FIRE' %}
+                                    <span class="badge badge-pill badge-danger">{{ monster[15] }}</span>
+                                {% elif monster[15] == 'EARTH' %}
+                                    <span class="badge badge-pill badge-success">{{ monster[15] }}</span>
+                                {% elif monster[15] == 'WATER' %}
+                                    <span class="badge badge-pill badge-primary">{{ monster[15] }}</span>
+                                {% else %}
+                                    <span class="badge badge-pill badge-secondary">{{ monster[15] }}</span>
+                                {% endif %}
+                <br>
+                    note: {% if note[-1] == 'S' %}
+                              <span class="badge badge-pill badge-success">{{ note[-1] }}</span>
+                            {% elif note[-1] == 'A' %}
+                                 <span class="badge badge-pill badge-secondary">{{ note[-1] }}</span>
+                            {% elif note[-1] == 'B' %}
+                               <span class="badge badge-pill badge-primary"> {{ note[-1] }}</span>
+                            {% elif note[-1] == 'C' %}
+                               <span class="badge badge-pill badge-warning"> {{ note[-1] }}</span>
+                            {% elif note[-1] == 'D' %}
+                               <span class="badge badge-pill badge-danger"> {{ note[-1] }}</span>
+                            {% else %}
+                               <span class="badge badge-pill badge-pill badge-dark"> N/A</span>
+                            {% endif %}
+
+                </p>
+                <p>Etoile native:
+                    {% for i in range(0,5) %}
+                        {% if i< star %}
+                             <i class="fas fa-star"></i>
+                        {% else %}
+                              <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                <span>
+                    <p>
+                        Description: Il est beau, il est fort, il est swag.
+                    </p>
+                </span>
+            <span>
+                Bonus d'eveil: {{ awake[0] }} <br>
+                Bonus alternatif: {{ awake[1] }}
+
+            </span>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                <i class="far fa-bookmark"></i> Skill
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <th>blblbl</th>
+                                <th>blblbl blblbl blblblblblbl blblblblblbl blblblblblblblblbl</th>
+                            </tr>
+                            <tr>
+                                <th>blblbl</th>
+                                <th>blblbl blblbl blblblblblbl blblblblblbl blblblblblblblblbl</th>
+                            </tr>
+                             <tr>
+                                <th>blblbl</th>
+                                <th>blblbl blblbl blblblblblbl blblblblblbl blblblblblblblblbl</th>
+                            </tr>
+                             <tr>
+                                <th>blblbl</th>
+                                <th>blblbl blblbl blblblblblbl blblblblblbl blblblblblblblblbl</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                <i class="far fa-bookmark"></i> Stats
+            </div>
+            <div class="card-body">
+                <canvas id="radar-chart"></canvas>
+                <script>
+                    var ctx = document.getElementById('radar-chart').getContext('2d');
+                    var data = {
+                      labels : [{% for item in labels %}
+                                "{{item}}",
+                             {% endfor %}],
+                      datasets : [
+                      {
+                        label: "Stats",
+                        fillColor : "rgba(255,0,0,0.8)",
+                        strokeColor : "rgba(255,0,0,0.8)",
+                        data : [{% for item in datas %}
+                                "{{item}}",
+                             {% endfor %}],
+                      }
+                      ]
+                    };
+
+                    var myRadarChart = new Chart(ctx, {
+                            type: "radar",
+                            data: data,
+                            options: {
+                                    scale: {
+                                        reverse: true,
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                              }
+                           });
+                </script>
+              </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                <i class="far fa-bookmark"></i> Note
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>Note</th>
+                        </tr>
+                        <tbody>
+                            {% for item in range(0, zone|length) %}
+                            <tr>
+                                <th>{{ zone[item] }}</th>
+                                <th>{{ note[item] }}</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
