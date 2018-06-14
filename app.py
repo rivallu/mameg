@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from flask import Flask
-from flask import flash
 from flask import render_template
 from flask import request
 from flask_bootstrap import Bootstrap
@@ -74,7 +73,9 @@ def detail(id):
                 return render_template('detail.html', title=monster[1], monster=monster, star=int(monster[3]), labels=labelStat, datas=stats, zone=zone, note=note, awake= awake)
 @app.route('/about')
 def about():
-    return render_template('index.html', title='Tu as pas un PO ?')
+    form = ReusableForm(request.form)
+    print(form.errors)
+    return render_template('about.html', title='Tu as pas un PO ?',form=form)
 
 
 @app.route('/search', methods=['GET', 'POST'])
