@@ -78,6 +78,20 @@ def about():
     return render_template('about.html', title='Tu as pas un PO ?',form=form)
 
 
+@app.route('/monsters')
+def monsters():
+    form = ReusableForm(request.form)
+    print(form.errors)
+    monsters = []
+    with open('mameg.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+        next(spamreader, None)
+        for row in spamreader:
+            liste = [row[0], row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
+            monsters.append(liste)
+    return render_template('monster.html', title='All monsters', monsters=monsters, form=form)
+
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = ReusableForm(request.form)
