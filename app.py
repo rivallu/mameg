@@ -42,7 +42,7 @@ def index():
         for row in spamreader:
             liste=[row[0],row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
             monsters.append(liste)
-    return render_template('index.html', title='All monsters', monsters=monsters, form=form)
+    return render_template('index.html', title='Welcome', form=form)
 
 
 
