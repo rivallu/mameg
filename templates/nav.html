@@ -34,14 +34,14 @@
     </button>
     <ul class="navbar-nav ml-auto" ng-controller="NavCtrl">
         <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <form class="form-inline my-2 my-lg-0 mr-lg-2"  action="search" method="post">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." ng-model="blblbl" ng-change="Change(blblbl)">
+                    <input class="form-control" type="text" placeholder="Search for..." {{ form.name }}>
                     <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </span>
                 </div>
             </form>
         </li>

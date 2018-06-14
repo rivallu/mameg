@@ -1,0 +1,42 @@
+{% include ('nav.html') %}
+
+{% block content %}
+    <div class="container">
+      <div class="page-header">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="row ">
+          {% for monster in monsters %}
+              <div class="col-lg-3 col-sm-6 portfolio-item"  ng-repeat="manga in Mangalist| filter: { name: search.search }">
+                <div class="card h-100">
+                    <a href="detail/{{ monster[0] }}"><img class="card-img-top" src="https://s3-us-west-2.amazonaws.com/rune-mmeg-assets/wp-content/uploads/2018/05/24105532/Fire-Angel.png" alt="Not found"></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {{ monster[1] }}
+                        </h4>
+                        <p class="card-text">
+                            {% for i in range(0,5) %}
+                                {% if i< monster[2] %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <p> {% if  monster[3]  =='FIRE' %}
+                                    <span class="badge badge-pill badge-danger">{{ monster[3] }}</span>
+                                {% elif monster[3] == 'EARTH' %}
+                                    <span class="badge badge-pill badge-success">{{ monster[3] }}</span>
+                                {% elif monster[3] == 'WATER' %}
+                                    <span class="badge badge-pill badge-primary">{{ monster[3] }}</span>
+                                {% else %}
+                                    <span class="badge badge-pill badge-secondary">{{ monster[3] }}</span>
+                                {% endif %}
+                            </p>
+                            <p>Description: {{ monster[4] }}</p>
+                    </div>
+                </div>
+              </div>
+          {%  endfor %}
+      </div>
+    </div>
+{% endblock %}

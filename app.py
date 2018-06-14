@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 from flask import Flask
+from flask import flash
 from flask import render_template
+from flask import request
 from flask_bootstrap import Bootstrap
 from flask_bootstrap import WebCDN
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import csv
+import re
+
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -13,6 +18,9 @@ app.extensions['bootstrap']['cdns']['bootstrap'] = WebCDN('//cdnjs.cloudflare.co
 nav = Nav()
 nav.init_app(app)
 
+
+class ReusableForm(Form):
+    name = TextField('Name:', validators=[validators.required()])
 
 
 @nav.navigation()
@@ -24,10 +32,10 @@ def mynavbar():
         View('About', 'about'),
     )
 
-@app.route('/')
-
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    form = ReusableForm(request.form)
+    print(form.errors)
     monsters=[]
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -35,11 +43,9 @@ def index():
         for row in spamreader:
             liste=[row[0],row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
             monsters.append(liste)
-    return render_template('index.html', title='All monsters',monsters=monsters)
+    return render_template('index.html', title='All monsters', monsters=monsters, form=form)
 
-@app.route('/search')
-def search():
-    return render_template('index.html', title='Hello World?')
+
 
 @app.route('/detail/<id>')
 def detail(id):
@@ -69,6 +75,28 @@ def detail(id):
 @app.route('/about')
 def about():
     return render_template('index.html', title='Tu as pas un PO ?')
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    form = ReusableForm(request.form)
+    print(form.errors)
+    name = ''
+    monsters = []
+    if request.method == 'POST':
+        name = request.form['name']
+        with open('mameg.csv', newline='') as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+            next(spamreader, None)
+            for row in spamreader:
+                if name != '':
+                    if re.search(name.lower(), row[1].lower()):
+                        liste = [row[0], row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
+                        monsters.append(liste)
+            return render_template('search.html', title='Reseach', monsters=monsters, form=form)
+
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=8080)
 
