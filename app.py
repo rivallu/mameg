@@ -48,6 +48,8 @@ def index():
 
 @app.route('/detail/<id>')
 def detail(id):
+    form = ReusableForm(request.form)
+    print(form.errors)
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         labeltmp =next(spamreader, None)
@@ -70,12 +72,12 @@ def detail(id):
                 for i in range(16,22):
                     note.append(row[i])
                     awake=[row[-2], row[-1]]
-                return render_template('detail.html', title=monster[1], monster=monster, star=int(monster[3]), labels=labelStat, datas=stats, zone=zone, note=note, awake= awake)
+                return render_template('detail.html', title=monster[1], monster=monster, star=int(monster[3]), labels=labelStat, datas=stats, zone=zone, note=note, awake= awake, form=form)
 @app.route('/about')
 def about():
     form = ReusableForm(request.form)
     print(form.errors)
-    return render_template('about.html', title='Tu as pas un PO ?',form=form)
+    return render_template('about.html', title='Tu as pas un PO ?', form=form)
 
 
 @app.route('/monsters')
@@ -108,7 +110,7 @@ def search():
                     if re.search(name.lower(), row[1].lower()):
                         liste = [row[0], row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
                         monsters.append(liste)
-            return render_template('search.html', title='Reseach', monsters=monsters, form=form)
+            return render_template('search.html', title='Reseach for {}'.format(name), monsters=monsters, form=form)
 
 
 
