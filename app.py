@@ -4,8 +4,6 @@ from flask import render_template
 from flask import request
 from flask_bootstrap import Bootstrap
 from flask_bootstrap import WebCDN
-from flask_nav import Nav
-from flask_nav.elements import Navbar, View
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import csv
 import re
@@ -14,22 +12,11 @@ import re
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.extensions['bootstrap']['cdns']['bootstrap'] = WebCDN('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/')
-nav = Nav()
-nav.init_app(app)
 
 
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
 
-
-@nav.navigation()
-def mynavbar():
-    return Navbar(
-        'Might & Magic: Elemental Gardians',
-        View('Home', 'index'),
-        View('Search', 'search'),
-        View('About', 'about'),
-    )
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -113,6 +100,12 @@ def search():
             return render_template('search.html', title='Reseach for {}'.format(name), monsters=monsters, form=form)
 
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    form = ReusableForm(request.form)
+    print(form.errors)
+    return render_template('404.html', title='404 Not found',form=form), 404
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=8080)

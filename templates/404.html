@@ -1,0 +1,18 @@
+{% include ('nav.html') %}
+
+{% block body %}
+       <div class="container">
+      <div class="page-header">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="row ">
+          <div class="col-lg-12">
+             <div class="card">
+                 <div class="card-body">
+                     <p>What you were looking for is just not there.
+                     <p><a href="{{ url_for('index') }}">go somewhere nice</a>
+                 </div>
+             </div>
+      </div>
+    </div>
+{% endblock %}
