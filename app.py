@@ -2,9 +2,10 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import redirect
 from flask_bootstrap import Bootstrap
 from flask_bootstrap import WebCDN
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms import Form, TextField, validators
 import csv
 import re
 
@@ -21,22 +22,19 @@ class ReusableForm(Form):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = ReusableForm(request.form)
-    print(form.errors)
-    monsters=[]
+    monsters = []
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         next(spamreader, None)
         for row in spamreader:
             liste=[row[0],row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
             monsters.append(liste)
-    return render_template('index.html', title='Welcome', form=form)
-
+    return render_template('index.html', title='Welcome to Might and Magic: Elemental Gardians monster Database.', form=form)
 
 
 @app.route('/detail/<id>')
 def detail(id):
     form = ReusableForm(request.form)
-    print(form.errors)
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         labeltmp =next(spamreader, None)
@@ -60,17 +58,18 @@ def detail(id):
                     note.append(row[i])
                     awake=[row[-2], row[-1]]
                 return render_template('detail.html', title=monster[1], monster=monster, star=int(monster[3]), labels=labelStat, datas=stats, zone=zone, note=note, awake= awake, form=form)
+    return redirect(404)
+
+
 @app.route('/about')
 def about():
     form = ReusableForm(request.form)
-    print(form.errors)
-    return render_template('about.html', title='Tu as pas un PO ?', form=form)
+    return render_template('about.html', title='About this project', form=form)
 
 
 @app.route('/monsters')
 def monsters():
     form = ReusableForm(request.form)
-    print(form.errors)
     monsters = []
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -84,7 +83,6 @@ def monsters():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = ReusableForm(request.form)
-    print(form.errors)
     name = ''
     monsters = []
     if request.method == 'POST':
@@ -100,13 +98,13 @@ def search():
             return render_template('search.html', title='Reseach for {}'.format(name), monsters=monsters, form=form)
 
 
-
 @app.errorhandler(404)
+@app.errorhandler(500)
 def page_not_found(e):
     form = ReusableForm(request.form)
-    print(form.errors)
     return render_template('404.html', title='404 Not found',form=form), 404
 
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=8080)
+    app.run(host="0.0.0.0", port=8080)
 
