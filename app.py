@@ -6,6 +6,7 @@ from flask import redirect
 from flask_bootstrap import Bootstrap
 from flask_bootstrap import WebCDN
 from wtforms import Form, TextField, validators
+from random import randint
 import csv
 import re
 
@@ -23,13 +24,17 @@ class ReusableForm(Form):
 def index():
     form = ReusableForm(request.form)
     monsters = []
+    index=0
+    rands= [randint(0,443) for i in range(0,5)]
     with open('mameg.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
         next(spamreader, None)
         for row in spamreader:
-            liste=[row[0],row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
-            monsters.append(liste)
-    return render_template('index.html', title='Welcome to Might and Magic: Elemental Gardians monster Database.', form=form)
+            if index<4 and int(row[0]) in rands:
+                index+=1
+                liste=[row[0],row[1], int(row[3]), row[15], 'Description: Il est beau, il est fort, il est swag']
+                monsters.append(liste)
+    return render_template('index.html', title='Welcome to Might and Magic: Elemental Gardians monster Database.', form=form, monsters=monsters)
 
 
 @app.route('/detail/<id>')
