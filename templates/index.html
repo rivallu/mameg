@@ -23,20 +23,103 @@
                  </div>
              </div>
           </div>
+      </div>
+    <div class="row">
        {% for monster in monsters %}
-          <div class="col-lg-3 col-sm-6 portfolio-item">
-            <div class="card h-100">
-                <a href="detail/{{ monster[0] }}"><img class="card-img-top" src="https://s3-us-west-2.amazonaws.com/rune-mmeg-assets/wp-content/uploads/2018/05/24105532/Fire-Angel.png" alt="Not found"></a>
-                <div class="card-body">
-                    <h4 class="card-title">
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <a href="detail/{{ monster[0] }}">
+            <div class="panel card">
+                <table>
+                    <tbody>
+                    <td class="td_affiche_liste">
+                        <img class="affiche_liste" src="https://s3-us-west-2.amazonaws.com/rune-mmeg-assets/wp-content/uploads/2018/05/24105532/Fire-Angel.png" alt="Not found">
+                    </td>
+                    <td class="liste-content">
+                        <h5 ><!-- class="card-title" >-->
+                            {{ monster[1] }}
+                        </h5>
+                        <p><!--class="card-text">-->
+                        {% if  monster[3]  =='FIRE' %}
+                            {% for i in range(0,5) %}
+                                {% if i< monster[2] %}
+                                    <i class="fas fa-star" style="color: #dc3545;"></i>
+                                {% else %}
+                                    <i class="far fa-star" style="color: gray;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>
+                                <span class="badge badge-pill badge-danger">{{ monster[3] }}</span>
+                        {% elif monster[3] == 'EARTH' %}
+                            {% for i in range(0,5) %}
+                                {% if i< monster[2] %}
+                                    <i class="fas fa-star" style="color: #28a745;"></i>
+                                {% else %}
+                                    <i class="far fa-star" style="color: gray;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>
+                                <span class="badge badge-pill badge-success">{{ monster[3] }}</span>
+                            {% elif monster[3] == 'WATER' %}
+                                {% for i in range(0,5) %}
+                                    {% if i< monster[2] %}
+                                        <i class="fas fa-star" style="color: #007bff;"></i>
+                                    {% else %}
+                                        <i class="far fa-star" style="color: gray;"></i>
+                                    {% endif %}
+                                {% endfor %}
+                        </p>
+                        <p>
+                                <span class="badge badge-pill badge-primary">{{ monster[3] }}</span>
+                            {% else %}
+                                {% for i in range(0,5) %}
+                                    {% if i< monster[2] %}
+                                        <i class="fas fa-star" style="color: #6c757d;"></i>
+                                    {% else %}
+                                        <i class="far fa-star" style="color: gray;"></i>
+                                    {% endif %}
+                                {% endfor %}
+                        </p>
+                        <p>
+                                <span class="badge badge-pill badge-secondary">{{ monster[3] }}</span>
+                        {% endif %}
+                        </p>
+                        <p>Description: {{ monster[4] }}</p>
+{#                        <p><!--class="card-text">-->
+                            {% for i in range(0,5) %}
+                                {% if i< monster[2] %}
+                                    <i class="fas fa-star" style="color: #f0f000;"></i>
+                                {% else %}
+                                    <i class="far fa-star" style="color: gray;"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p> {% if  monster[3]  =='FIRE' %}
+                                <span class="badge badge-pill badge-danger">{{ monster[3] }}</span>
+                            {% elif monster[3] == 'EARTH' %}
+                                <span class="badge badge-pill badge-success">{{ monster[3] }}</span>
+                            {% elif monster[3] == 'WATER' %}
+                                <span class="badge badge-pill badge-primary">{{ monster[3] }}</span>
+                            {% else %}
+                                <span class="badge badge-pill badge-secondary">{{ monster[3] }}</span>
+                            {% endif %}
+                        </p>
+                        <p>Description: {{ monster[4] }}</p>#}
+                    </td>
+                    </tbody>
+                </table>
+               {# <a href="detail/{{ monster[0] }}"><img class="affiche_liste" src="https://s3-us-west-2.amazonaws.com/rune-mmeg-assets/wp-content/uploads/2018/05/24105532/Fire-Angel.png" alt="Not found"></a>
+                <div class="panel-body text-left inside_liste liste-content">
+                    <h4 ><!-- class="card-title" >-->
                         {{ monster[1] }}
                     </h4>
-                    <p class="card-text">
+                    <p><!--class="card-text">-->
                         {% for i in range(0,5) %}
                             {% if i< monster[2] %}
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star" style="color: yellow;"></i>
                             {% else %}
-                                <i class="far fa-star"></i>
+                                <i class="far fa-star" style="color: gray;"></i>
                             {% endif %}
                         {% endfor %}
                         <p> {% if  monster[3]  =='FIRE' %}
@@ -50,8 +133,9 @@
                             {% endif %}
                         </p>
                         <p>Description: {{ monster[4] }}</p>
-                </div>
+                </div>#}
             </div>
+            </a>
           </div>
       {%  endfor %}
 

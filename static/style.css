@@ -475,8 +475,29 @@ footer.sticky-footer {
     -ms-transform: translate(-50%, -50%)
 }
 .text{
-    /*background-color: #4CAF50;*/
+    background-color: #4CAF50;
     color: black;
     font-size: 16px;
-    /*padding: 16px 32px;*/
+    padding: 16px 32px;
+}
+.affiche_liste {
+	width: 110px;
+	border-radius: 3px 0 0 3px;
+}
+.td_affiche_liste {
+	position: relative;
+	overflow: hidden;
+}
+.liste-content {
+	/*padding: 10px 10px 10px 10px;*/
+	vertical-align: top;
+	text-align: left;
+}
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+a:hover{
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
 }
